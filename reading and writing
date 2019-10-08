@@ -1,0 +1,90 @@
+#this first program reads a prints a file, and works.
+
+from sys import argv
+#We're creating the argument for the user to input strings
+script, filename = argv
+#Creating a new variable using the open() command to open the file
+#selected by user.
+txt = open(filename)
+
+print(f"Here's your file {filename}:")
+#printing the text within the chosen file
+#Important! We have no parameters in the (), but we are reading the variable
+#txt, which contains the open(filename). This is equivalent
+#to writing print print(print(open(filename).read())
+#Notice: writing print(read(txt)) throws an error. (Why?)
+#"txt.read() says, "Hey txt! Do your read command with no parameters!
+#We're reading the variable for which open() has been created
+print(txt.read())
+#When close() is called, the text "None" appears below the text
+#of the the doument --> the format file.command(args)
+#The following codes produces the # of characters equivalent
+#to the argument
+
+
+print("Type the filename again:")
+file_again = input("> ")
+
+txt_again = open(file_again)
+
+print(txt_again.read())
+
+#------------------------------------------------------------------------------------------------------------
+#This is the second program. This reads the file and allows the user to write in new lines of text. Now, everything works until lines
+#78-84. All I want to do is reprint the file that has been changed. As it stands, it allows me to enter the file name, but returns me 
+#with a blank space. I can't tell what the hell I'm doing wrong
+
+from sys import argv
+#Asking for input from user
+script, filename = argv
+
+print(f"We're going to erase {filename}.")
+#CTRL-C stops python
+print(f"If you don't want that, hit CRTL-C (^C).")
+print("If you do want that, hit RETURN.")
+#this is the input to the question on line 8
+input("? ")
+
+print("Opening the file...")
+#defining new variable to open file from user...but what is the
+#second argument 'w'?
+#Ahhh, okay. This function can take 2 arguments open(file, mode)
+#Mode can be "r" (read, default), "a" - append, "w" - write - opens
+#file for writing and creates file if it doesn't exist
+#"x" creates file. So, this means we've opened the file for writing
+target = open(filename, 'w')
+
+print("Truncating the file. Goodbye!")
+#Calling truncate command on target variable we've created
+target.truncate()
+
+print("Now I'm going to ask you for three lines.")
+
+line1 = input("line 1: ")
+line2 = input("line 2: ")
+line3 = input("line 3: ")
+
+print("I'm going to write these to the file.")
+target.write(f"{line1} \n {line2} \n {line3}")
+#print(f"Here's what {filename} looks like now.")
+#target.write("\n")
+#target.write(line2)
+#target.write("\n")
+#target.write(line3)
+
+#This prints the filename that the user has typed
+#print(f"Here's your file: {target}")
+
+print(f"We're going to open {filename}.")
+print("Type the filename again:")
+file_again = input("> ")
+
+txt_again = open(file_again)
+
+print(txt_again.read())
+#CTRL-C stops python
+#MUST FIGURE OUT HOW TO RE-READ FILE!!
+
+#print("And finally, we close it.")
+#closing file when done
+#target.close()
