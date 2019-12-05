@@ -1,0 +1,155 @@
+import random
+
+def display_board(board):
+    #take in list. These moves should correspond to the indexes in the
+    # final board
+    #[row 0, row 1, row 2,]
+    print(" | | ")
+    print(board[7]+"|"+board[8]+"|"+board[9])
+    print(" | | ")
+    print("-"*6)
+    print(" | | ")
+    print(board[4]+"|"+board[5]+"|"+board[6])
+    print("-"*6)
+    print(" | | ")
+    print(board[1]+"|"+board[2]+"|"+board[3])
+    print(" | | ")
+
+
+def player_input():
+    pl1marker = ''
+    pl2marker = ''
+    check = True
+
+    while check:
+        pl1input = input("Player 1, what letter do you want? ")
+        if pl1input == 'X' or pl1input == 'x':
+            pl1marker = pl1input.upper()
+            pl2marker = 'O'
+            check = False
+        elif pl1input == 'O' or pl1input == 'o':
+            pl1marker = pl1input.upper()
+            pl2marker = 'X'
+            check = False
+        else:
+            print("Sorry, what? Please try again")
+            check = False
+
+    # print(f"Player 1 is {pl1marker} and Player 2 is {pl2marker}")
+
+    return (pl1marker, pl2marker)
+
+
+def place_marker(board, marker, position):
+    board[position] = marker
+
+def win_check(board, mark):
+    win = True
+    
+
+    return ((board[7] == mark and board[8] == mark and board[9] == mark) or # across the top
+    (board[4] == mark and board[5] == mark and board[6] == mark) or # across the middle
+    (board[1] == mark and board[2] == mark and board[3] == mark) or # across the bottom
+    (board[7] == mark and board[4] == mark and board[1] == mark) or # down the middle
+    (board[8] == mark and board[5] == mark and board[2] == mark) or # down the middle
+    (board[9] == mark and board[6] == mark and board[3] == mark) or # down the right side
+    (board[7] == mark and board[5] == mark and board[3] == mark) or # diagonal
+    (board[9] == mark and board[5] == mark and board[1] == mark)) # diagonal
+
+
+
+
+def choose_first():
+    choose = random.randint(0, 1)
+    return choose
+
+
+def space_check(board, position):
+    return board[position] == ' '
+
+
+def full_board_check(board):
+    board_full = False
+    spaces_filled = 0
+
+    for i in range(len(board)):
+        if board[i] == ' ':
+            pass
+        else:
+            spaces_filled += 1
+
+    if spaces_filled == 10:
+        board_full = True
+
+    return board_full
+
+
+
+def player_choice(board):
+    position = ''
+    while position not in [1,2,3,4,5,6,7,8,9] or not space_check(board, position):
+        position = int(input('Choose your position: (1-9) '))
+    return position
+
+def replay():
+    return input('Do you want to play again? Enter Yes or No: ').lower().startswith('y')
+    
+print('Welcome to Tic Tac Toe!')
+
+game_board = ['#',' ',' ',' ',' ',' ',' ',' ',' ',' ']
+
+game_on = True
+game_win = False
+play = True
+
+while play:
+    # player's choose marker. Returns markers
+
+    pl1marker = ''
+    pl2marker = ''
+    winner = ''
+    response = ''
+
+while pl1marker != "x" or "o":
+        pl1marker, pl2marker = player_input()
+        if pl1marker == "X" or pl1marker == "O":
+            break
+
+    print("-"*10)
+    #game begins
+    while game_on:
+        game_on = True
+        # player 1's turn
+        position = player_choice(game_board)
+        
+        place_marker(game_board, pl1marker, position)
+        # DISPLAYS!
+        display_board(game_board)
+        space_check(game_board, position)
+        win = win_check(game_board, pl1marker)
+        if win_check(game_board, pl1marker):
+            print(f"{pl1marker} wins!")
+            winner = pl1marker
+            # breaks game_on
+            break
+        # works
+        if full_board_check(game_board):
+            print("Board full!")
+            break
+        # check to see if wins
+
+        # player 2's turn
+        print(f"{pl2marker}'s turn.")
+        position = player_choice(game_board)
+        place_marker(game_board, pl2marker, position)
+        display_board(game_board)
+        space_check(game_board, position)
+        if win_check(game_board, pl2marker):
+            print(f"{pl2marker} wins!")
+            break
+        if full_board_check(game_board):
+            print("Board full!")
+            break
+        break
+
+    game_board = ['#',' ',' ',' ',' ',' ',' ',' ',' ',' ']
